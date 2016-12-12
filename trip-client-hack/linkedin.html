@@ -8,9 +8,7 @@
         authorize: true
         onLoad: onLinkedInLoad
     </script>
-    <script type="in/Login">
-        Hello, <?js= firstName ?> <?js= lastName ?>.
-       </script>
+
     <script type="text/javascript">
 
         // Setup an event listener to make an API call once auth is complete
@@ -35,7 +33,7 @@
 
             if(!IN.User.isAuthorized()) {
                 alert("Not authorized !");
-                return;
+                return false;
             }
             if (confirm("Share content ?") == true) {
 
@@ -58,7 +56,9 @@
                         .body(JSON.stringify(payload))
                         .result(onSuccess)
                         .error(onError);
+                return true;
             }
+            return false;
         }
 
     </script>
@@ -66,8 +66,8 @@
 
 <body>
 <h1>Linkedin</h1>
-
-<form onsubmit="shareContent()">
+<script type="in/Login">Hello, <?js= firstName ?> <?js= lastName ?>.</script>
+<form onsubmit="return shareContent();">
     Comment : <input id="comment" name="comment" type="text" />
     <input type="submit" name="submit" value="Share">
 </form>
