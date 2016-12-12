@@ -24,7 +24,7 @@ public class ShareController {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-	@RequestMapping(value = "/fb/{payload}/{bust}", method = RequestMethod.GET)
+	@RequestMapping(value = "/fb/{payload}", method = RequestMethod.GET)
 	public String generateFacebookPage(
 	        @PathVariable String payload,
             Model model) throws IOException {
@@ -45,9 +45,8 @@ public class ShareController {
 
         String imageUrl = "https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg";
 
-        model.addAttribute("title", "Mon voyage à " + tripMetaData.getDestination() + " avec Egencia");
-        model.addAttribute("description", "Mon voyage à " + tripMetaData.getDestination() + " avec Egencia");
-        model.addAttribute("currentUrl", "http://54.171.123.75/gc/share/fb");
+        model.addAttribute("title", "My trip to " + tripMetaData.getDestination());
+        model.addAttribute("description", "Booked with Egencia");
         model.addAttribute("imageUrl", imageUrl);
 
         LOGGER.info("Model: {}", model);
