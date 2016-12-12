@@ -30,26 +30,30 @@
     // Use the API call wrapper to share content on LinkedIn
     function shareContent() {
 
-        // Build the JSON payload containing the content to be shared
-        var payload = {
-            "comment": $('#comment').val(),
-            "visibility": {
-                "code": "anyone"
-            }
-        };
+        if (confirm("Share content ?") == true) {
+            
+            // Build the JSON payload containing the content to be shared
+            var payload = {
+                "comment": $('#comment').val(),
+                "visibility": {
+                    "code": "anyone"
+                }
+            };
 
-        IN.API.Raw("/people/~/shares?format=json")
-                .method("POST")
-                .body(JSON.stringify(payload))
-                .result(onSuccess)
-                .error(onError);
+            IN.API.Raw("/people/~/shares?format=json")
+                    .method("POST")
+                    .body(JSON.stringify(payload))
+                    .result(onSuccess)
+                    .error(onError);
+
+        }
     }
 
 </script>
 
 <h1>Linkedin</h1>
 
-<form onsubmit="return shareContent()">
+<form onsubmit="shareContent()">
     Comment : <input id="comment" name="comment" type="text" />
     <input type="submit" name="submit" value="Share">
 </form>
