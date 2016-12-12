@@ -1,15 +1,18 @@
 package com.egencia.hackathon.controller;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Base64;
 
 @Controller
 @RequestMapping(value = "/share", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=utf-8")
@@ -17,21 +20,33 @@ public class ShareController {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(ShareController.class);
 
-	@ResponseBody
-	@RequestMapping(value = "/trips", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Void> process(@RequestBody(required = true) final TripMetaData metaData) {
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-		LOGGER.info("Sharing trip metadata : {}", metaData);
-		return new ResponseEntity<>(HttpStatus.OK);
+    private final RestTemplate restTemplate = new RestTemplate();
 
-	}
+	@RequestMapping(value = "/fb/{payload}/{bust}", method = RequestMethod.GET)
+	public String generateFacebookPage(
+	        @PathVariable String payload,
+            Model model) throws IOException {
 
-	@RequestMapping("/fb/{payload}/{bust}")
-	public String greeting(
-                           @RequestParam(value="payload", required=false, defaultValue="World") String payload,
-                           @RequestParam(value="bust", required=false) String bust,
-                           Model model) {
-		model.addAttribute("currentUrl", "http://54.171.123.75/gc/share/fb");
+        LOGGER.info("Base64 Payload: {}", payload);
+
+        String json = new String(Base64.getDecoder().decode(payload));
+        LOGGER.info("JSON Payload: {}", json);
+
+        TripMetaData tripMetaData = objectMapper.readValue(json, TripMetaData.class);
+
+        FlickrResponse flickrResponse = restTemplate.getForObject(
+                "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=a69bcf92807b072b8a3f899d46663387&text={destination}&per_page=1&page=1&format=json&nojsoncallback=1",
+                FlickrResponse.class,
+                tripMetaData.getDestination());
+
+        model.addAttribute("title", "Mon voyage à " + tripMetaData.getDestination() + " avec Egencia");
+        model.addAttribute("description", "Mon voyage à " + tripMetaData.getDestination() + " avec Egencia");
+        model.addAttribute("currentUrl", "http://54.171.123.75/gc/share/fb");
+
+        LOGGER.info("Model: {}", model);
+
 		return "fb";
 	}
 

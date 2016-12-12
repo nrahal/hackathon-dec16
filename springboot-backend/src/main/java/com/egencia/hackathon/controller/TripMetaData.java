@@ -1,24 +1,26 @@
 package com.egencia.hackathon.controller;
 
-/**
- * Created by rcrepin on 12/12/16.
- */
+import java.util.Date;
+
 public class TripMetaData {
 
-    String id;
+    private Date date;
+    private String destination;
 
-    public String getId() {
-        return id;
+    public Date getDate() {
+        return date;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    @Override
-    public String toString() {
-        return "TripMetaData{" +
-                "id='" + id + '\'' +
-                '}';
+    public String getDestination() {
+        return destination;
     }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
 }
