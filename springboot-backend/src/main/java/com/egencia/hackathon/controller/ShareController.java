@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -22,6 +22,8 @@ public class ShareController {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    private final RestTemplate restTemplate = new RestTemplate();
+
 	@RequestMapping(value = "/fb/{payload}/{bust}", method = RequestMethod.GET)
 	public String generateFacebookPage(
 	        @PathVariable String payload,
@@ -33,6 +35,11 @@ public class ShareController {
         LOGGER.info("JSON Payload: {}", json);
 
         TripMetaData tripMetaData = objectMapper.readValue(json, TripMetaData.class);
+
+        FlickrResponse flickrResponse = restTemplate.getForObject(
+                "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=a69bcf92807b072b8a3f899d46663387&text={destination}&per_page=1&page=1&format=json&nojsoncallback=1",
+                FlickrResponse.class,
+                tripMetaData.getDestination());
 
         model.addAttribute("title", "Mon voyage à " + tripMetaData.getDestination() + " avec Egencia");
         model.addAttribute("description", "Mon voyage à " + tripMetaData.getDestination() + " avec Egencia");
