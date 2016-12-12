@@ -7,7 +7,7 @@
     authorize: true
     onLoad: onLinkedInLoad
 </script>
-
+<script type="IN/Login"></script>
 <script type="text/javascript">
 
     // Setup an event listener to make an API call once auth is complete
@@ -31,10 +31,16 @@
     function shareContent() {
 
         if (confirm("Share content ?") == true) {
-            
+
             // Build the JSON payload containing the content to be shared
             var payload = {
                 "comment": $('#comment').val(),
+                "content": {
+                    "title": $('#comment').val(),
+                    "description": $('#comment').val(),
+                    "submittedUrl": "https://www.egencia.fr/public/fr/fr/",
+                    "submittedImageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAH7XMhsi-E6zICdOTWq6RUD3CyZPYOmkkqjquj2E99h3Svlx-Y6z8KUUkLWP8QNSv9tvMjinSRtatHhDcDO5QF1v3ya2KG7EM7kVQMfX30FuVDHOx2tuGT9ie-x6SPSzWOz9l3q-c0FW4_Snt0dWq8haZqxBL8hD3BVKR-woELv7EhAL8YigSynvGcHF3iMCEukAGhQr0WiJXFAyfx26SFWVdDJ2kk4ZLw&key=AIzaSyArPkZ-NEjfjnfY33ztWqo59ULkpuaT2mU"
+                },
                 "visibility": {
                     "code": "anyone"
                 }
@@ -45,7 +51,6 @@
                     .body(JSON.stringify(payload))
                     .result(onSuccess)
                     .error(onError);
-
         }
     }
 
