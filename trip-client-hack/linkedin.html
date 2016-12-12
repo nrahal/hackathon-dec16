@@ -1,12 +1,12 @@
 <html>
 
 <head>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
     <script type="text/javascript" src="http://platform.linkedin.com/in.js">
         api_key: 77c3z2vzb941q1
         authorize: true
-        onLoad: onLinkedInLoad
+        //onLoad: onLinkedInLoad
     </script>
 
     <script type="text/javascript">
@@ -66,7 +66,7 @@
 
 <body>
 <h1>Linkedin</h1>
-<script type="in/Login">Hello, <?js= firstName ?> <?js= lastName ?>.</script>
+<script type="in/Login">Signed in as <?js= firstName ?> <?js= lastName ?>.</script>
 <form onsubmit="return shareContent();">
     Comment : <input id="comment" name="comment" type="text" />
     <input type="submit" name="submit" value="Share">
