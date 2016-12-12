@@ -38,24 +38,46 @@ window.fbAsyncInit = function() {
 
 // Insert Button
 
+
+function build_button_html(src1,src2){
+    var html = '<div class="col col2 align-right col-md-5 col-sm-5 zero-left-padding uppercase" style="margin-bottom:-5px;top:-5px"><a id="tools-share-fb" href="#" class="zero-right-margin"><img src="'+
+    src1 + '"/></a>&nbsp;<a id="tools-share-ln-popup" href="#" class="zero-right-margin"><img src="'+ src2 + '"/></a></div>';
+    return html;
+}
+
+var prefix = 'hackathon';
+if (hack_prefix) {
+    prefix = hack_prefix;
+}
+
+var root = 'http://54.171.123.75/' + prefix
+var static_root = root +"/static/"
+
 var tools_view = $('#tools-view');
-var html_fb_button = '<div class="col col1 align-right col-md-5 col-sm-5 zero-left-padding uppercase"><a id="tools-share-fb" href="#" class="zero-right-margin"><img src="https://www.facebook.com/rsrc.php/v3/yQ/r/7GFXgco-uzw.png"><i class="icon"/>&nbsp;Share</a></div>';
+
+var html_fb_button = build_button_html(static_root+"FB.png",static_root+"ln.png");
 tools_view.append( html_fb_button );
+
+//var html_ln_button_popup =  build_button_html(static_root+"/ln.png");
+//tools_view.append(html_ln_button_popup)
 
 // Shift toolbar
 
 first = tools_view.children().first();
 first.toggleClass("col9");
-first.toggleClass("col8");
+first.toggleClass("col7");
+
 
 //load linked in sdk
 add_ln_script()
 //add ln sign in button
-var ln_login_html = '<script type="in/Login">Signed in as <?js= firstName ?> <?js= lastName ?>. <input type="button" value="Logout !" onclick="logout()"></script>'
-tools_view.append(ln_login_html)
+var ln_login_html = '<script type="in/Login"><?js= firstName ?> <?js= lastName ?> <input type="button" value="Logout !" onclick="logout()"></script>'
+//tools_view.append(ln_login_html)
 
-var html_ln_button = '<div class="col col1 align-right col-md-5 col-sm-5 zero-left-padding uppercase"><a id="tools-share-ln" href="#" class="zero-right-margin"><i class="icon"/>&nbsp;Share</a></div>';
-tools_view.append(html_ln_button)
+var html_ln_button = '<div class="col col1 align-right col-md-5 col-sm-5 zero-left-padding uppercase"><a id="tools-share-ln" href="#" class="zero-right-margin"><img src="https://www.facebook.com/rsrc.php/v3/yQ/r/7GFXgco-uzw.png"><i class="icon"/></a></div>';
+//tools_view.append(html_ln_button)
+
+
 
 
 // Add click handler
@@ -95,42 +117,18 @@ document.getElementById('tools-share-fb').onclick = function() {
     return false;
 }
 
-document.getElementById('tools-share-ln').onclick = function() {
+console.log(document.getElementById('tools-share-ln-popup'))
 
-// Handle the successful return from the API call
-function onSuccess(data) {
-    console.log("SUCCESS : " + data);
-}
+document.getElementById('tools-share-ln-popup').onclick = function() {
 
-// Handle an error response from the API call
-function onError(error) {
-    console.log("ERROR :" + error);
-}
+    var publication_content = get_publication_content();
+    var publication_content_base64 = btoa(JSON.stringify(publication_content));
 
-if(!IN.User.isAuthorized()) {
-    alert("Not authorized !");
-    return;
-}
+    var url = "https://www.linkedin.com/shareArticle?"
 
-var publication_content = get_publication_content();
+    cb_url = 'http://54.171.123.75/' + prefix + '/share/fb/' + publication_content_base64,
+    url = url +"url=" + cb_url;
 
-// Build the JSON payload containing the content to be shared
-var payload = {
-                "comment": "kjh",
-                "content": {
-                    "title": "title",
-                    "description": publication_content.destination,
-                    "submittedUrl": "https://www.egencia.fr/public/fr/fr/",
-                    "submittedImageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAH7XMhsi-E6zICdOTWq6RUD3CyZPYOmkkqjquj2E99h3Svlx-Y6z8KUUkLWP8QNSv9tvMjinSRtatHhDcDO5QF1v3ya2KG7EM7kVQMfX30FuVDHOx2tuGT9ie-x6SPSzWOz9l3q-c0FW4_Snt0dWq8haZqxBL8hD3BVKR-woELv7EhAL8YigSynvGcHF3iMCEukAGhQr0WiJXFAyfx26SFWVdDJ2kk4ZLw&key=AIzaSyArPkZ-NEjfjnfY33ztWqo59ULkpuaT2mU"
-                },
-                "visibility": {
-                    "code": "anyone"
-                }
- };
+    window.open(encodeURI(url),'linkedinwindow','left=20,top=20,width=600,height=700,toolbar=0,resizable=1');
 
-IN.API.Raw("/people/~/shares?format=json")
-                    .method("POST")
-                    .body(JSON.stringify(payload))
-                    .result(onSuccess)
-                    .error(onError);
 }
