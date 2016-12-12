@@ -1,7 +1,6 @@
 <html>
 
 <head>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
     <script type="text/javascript" src="http://platform.linkedin.com/in.js">
         api_key: 77c3z2vzb941q1
@@ -19,56 +18,55 @@
         // Handle the successful return from the API call
         function onSuccess(data) {
             console.log("SUCCESS : " + data);
-            $('#result').val("SUCCESS : " + data);
         }
 
         // Handle an error response from the API call
         function onError(error) {
             console.log("ERROR :" + error);
-            $('#result').val("ERROR : " + error);
         }
 
         // Use the API call wrapper to share content on LinkedIn
-        $("form").submit(function(event) {
+        function share() {
 
             if(!IN.User.isAuthorized()) {
                 alert("Not authorized !");
                 return;
             }
-            if (confirm("Share content ?") == true) {
 
-                // Build the JSON payload containing the content to be shared
-                var payload = {
-                    "comment": $('#comment').val(),
-                    "content": {
-                        "title": $('#comment').val(),
-                        "description": $('#comment').val(),
-                        "submittedUrl": "https://www.egencia.fr/public/fr/fr/",
-                        "submittedImageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAH7XMhsi-E6zICdOTWq6RUD3CyZPYOmkkqjquj2E99h3Svlx-Y6z8KUUkLWP8QNSv9tvMjinSRtatHhDcDO5QF1v3ya2KG7EM7kVQMfX30FuVDHOx2tuGT9ie-x6SPSzWOz9l3q-c0FW4_Snt0dWq8haZqxBL8hD3BVKR-woELv7EhAL8YigSynvGcHF3iMCEukAGhQr0WiJXFAyfx26SFWVdDJ2kk4ZLw&key=AIzaSyArPkZ-NEjfjnfY33ztWqo59ULkpuaT2mU"
-                    },
-                    "visibility": {
-                        "code": "anyone"
-                    }
-                };
+            // Build the JSON payload containing the content to be shared
+            var payload = {
+                "comment": document.getElementById("comment").value,
+                "content": {
+                    "title": document.getElementById("comment").value,
+                    "description": document.getElementById("comment").value,
+                    "submittedUrl": "https://www.egencia.fr/public/fr/fr/",
+                    "submittedImageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAH7XMhsi-E6zICdOTWq6RUD3CyZPYOmkkqjquj2E99h3Svlx-Y6z8KUUkLWP8QNSv9tvMjinSRtatHhDcDO5QF1v3ya2KG7EM7kVQMfX30FuVDHOx2tuGT9ie-x6SPSzWOz9l3q-c0FW4_Snt0dWq8haZqxBL8hD3BVKR-woELv7EhAL8YigSynvGcHF3iMCEukAGhQr0WiJXFAyfx26SFWVdDJ2kk4ZLw&key=AIzaSyArPkZ-NEjfjnfY33ztWqo59ULkpuaT2mU"
+                },
+                "visibility": {
+                    "code": "anyone"
+                }
+            };
 
-                IN.API.Raw("/people/~/shares?format=json")
-                        .method("POST")
-                        .body(JSON.stringify(payload))
-                        .result(onSuccess)
-                        .error(onError);
-            }
-        });
+            IN.API.Raw("/people/~/shares?format=json")
+                    .method("POST")
+                    .body(JSON.stringify(payload))
+                    .result(onSuccess)
+                    .error(onError);
+        }
 
     </script>
 </head>
 
-<body>
+<p>
 <h1>Linkedin</h1>
 <script type="in/Login">Signed in as <?js= firstName ?> <?js= lastName ?>.</script>
-<form>
+<script type="in/Logout"></script>
+
+<p>
     Comment : <input id="comment" name="comment" type="text" />
-    <input type="submit" name="submit" value="Share">
-</form>
-Result : <span id="result"></span>
+</p>
+<p>
+    <input type="submit" value="Share !" onclick="share()">
+</p>
 </body>
 </html>
