@@ -32,11 +32,13 @@ public class ShareController {
 
         LOGGER.info("Facebook - Base64 Payload: {}", payload);
         TripMetaData tripMetaData = fromPayload(payload);
-        String imageUrl = imageUrlOf(tripMetaData);
+        FlickrResponse.Photo photo = photoOf(tripMetaData);
 
         model.addAttribute("title", "My trip to " + tripMetaData.getDestination());
         model.addAttribute("description", "Booked with Egencia");
-        model.addAttribute("imageUrl", imageUrl);
+        model.addAttribute("imageUrl", photo.url_z);
+        model.addAttribute("imageWidth", photo.width_z);
+        model.addAttribute("imageHeight", photo.height_z);
 
         LOGGER.info("Model: {}", model);
 
@@ -50,13 +52,13 @@ public class ShareController {
 
         LOGGER.info("Linkedin - Base64 Payload: {}", payload);
         TripMetaData tripMetaData = fromPayload(payload);
-        String imageUrl = imageUrlOf(tripMetaData);
+        FlickrResponse.Photo photo = photoOf(tripMetaData);
 
         LinkedinData data = new LinkedinData();
         data.comment = "My trip to " + tripMetaData.getDestination();
         data.content.description = "Booked with Egencia";
         data.content.submittedUrl = "http://www.egencia.fr";
-        data.content.submittedImageUrl = imageUrl;
+        data.content.submittedImageUrl = photo.url_z;
 
         LOGGER.info("Lindedin Data: {}", objectMapper.writeValueAsString(data));
 
@@ -69,12 +71,14 @@ public class ShareController {
         return objectMapper.readValue(json, TripMetaData.class);
     }
 
-    private String imageUrlOf(TripMetaData tripMetaData) {
+    private FlickrResponse.Photo photoOf(TripMetaData tripMetaData) {
         FlickrResponse flickrResponse = restTemplate.getForObject(
-                "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=a69bcf92807b072b8a3f899d46663387&text={destination}&tags=skyline&per_page=1&page=1&sort=relevance&format=json&nojsoncallback=1",
+                "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=a69bcf92807b072b8a3f899d46663387" +
+                        "&text={destination}&tags=skyline&per_page=1&page=1&sort=relevance&format=json&nojsoncallback=1" +
+                        "&extras=url_z,o_dims",
                 FlickrResponse.class,
                 tripMetaData.getDestination());
-        FlickrResponse.Photo photo = flickrResponse.photos.photo.get(0);
-        return "https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg";
+
+        return flickrResponse.photos.photo.get(0);
     }
 }

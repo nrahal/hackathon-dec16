@@ -11,10 +11,9 @@ public class FlickrResponse {
     }
 
     public static class Photo {
-        public String id;
-        public String secret;
-        public String server;
-        public int farm;
+        public String url_z;
+        public String height_z;
+        public String width_z;
     }
 
 }

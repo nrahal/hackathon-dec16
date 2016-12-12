@@ -7,13 +7,13 @@
     <meta property="og:title"         th:content="${title}" />
     <meta property="og:description"   th:content="${description}" />
     <meta property="og:image"         th:content="${imageUrl}" />
-    <meta property="og:image:width" content="450"/>
-    <meta property="og:image:height" content="298"/>
+    <meta property="og:image:width"   th:content="${imageWidth}"/>
+    <meta property="og:image:height"  th:content="${imageHeight}"/>
 </head>
 
 <body>
 
-<img th:src="${imageUrl}" alt="Paris" style="width:450px;height:298px;"/>
+<img th:src="${imageUrl}" alt="Paris" th:height="${imageHeight}" th:width="${imageWidth}"/>
 
 </body>
 </html>
