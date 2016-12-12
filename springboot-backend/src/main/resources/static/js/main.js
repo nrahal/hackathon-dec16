@@ -50,11 +50,16 @@ document.getElementById('tools-share-fb').onclick = function() {
 
     var publication_content_base64 = btoa(JSON.stringify(publication_content));
 
+    var prefix = 'hackathon';
+    if (hack_prefix) {
+        prefix = hack_prefix;
+    }
+
     FB.ui({
         method: 'share',
         display: 'popup',
-        hashtag: '#egencia',
-        href: 'http://54.171.123.75/nr/share/fb/' + publication_content_base64 + "/123",
+        hashtag: '#Egencia',
+        href: 'http://54.171.123.75/' + prefix + '/share/fb/' + publication_content_base64,
     }, function(response){});
     return false;
 }
