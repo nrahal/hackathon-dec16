@@ -90,7 +90,7 @@ document.getElementById('tools-share-fb').onclick = function() {
         method: 'share',
         display: 'popup',
         hashtag: '#Egencia',
-        href: 'https://54.171.123.75/' + prefix + '/share/fb/' + publication_content_base64,
+        href: 'http://54.171.123.75/' + prefix + '/share/fb/' + publication_content_base64,
     }, function(response){});
     return false;
 }
