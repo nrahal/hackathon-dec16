@@ -1,5 +1,7 @@
 <html>
 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
 <script type="text/javascript" src="http://platform.linkedin.com/in.js">
     api_key: 77c3z2vzb941q1
     authorize: true
@@ -28,7 +30,7 @@
 
         // Build the JSON payload containing the content to be shared
         var payload = {
-            "comment": "Check out developer.linkedin.com! http://linkd.in/1FC2PyG",
+            "comment": $('#comment').val(),
             "visibility": {
                 "code": "anyone"
             }
@@ -44,4 +46,9 @@
 </script>
 
 <h1>Linkedin</h1>
+
+<form onsubmit="return shareContent()">
+    Comment : <input id="comment" name="comment" type="text" />
+    <input type="submit" name="submit" value="Share">
+</form>
 </html>
