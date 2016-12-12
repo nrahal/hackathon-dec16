@@ -1,11 +1,37 @@
 server :
   display-name : Hackathon Service
-  port : 8080
+  port : 5050
+  context-path: /hackathon
 
 security :
   basic.enabled : false
 
 management :
   security.enabled : false
+
+---
+spring.profiles: gc
+server:
+  port : 9090
+  context-path: /gc
+
+---
+spring.profiles: ok
+server:
+  port : 8080
+  context-path: /ok
+
+---
+spring.profiles: nr
+server:
+  port : 7070
+  context-path: /nr
+
+---
+spring.profiles: rc
+server:
+  port : 6060
+  context-path: /rc
+
 
 
