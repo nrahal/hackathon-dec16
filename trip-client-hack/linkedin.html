@@ -18,13 +18,11 @@
         // Handle the successful return from the API call
         function onSuccess(data) {
             console.log("SUCCESS : " + data);
-            $('#result').val("SUCCESS : " + data);
         }
 
         // Handle an error response from the API call
         function onError(error) {
             console.log("ERROR :" + error);
-            $('#result').val("ERROR : " + error);
         }
 
         // Use the API call wrapper to share content on LinkedIn
@@ -64,7 +62,7 @@
 <script type="in/Login">Signed in as <?js= firstName ?> <?js= lastName ?>.</script>
 <form onsubmit="share()">
     Comment : <input id="comment" name="comment" type="text" />
-    <input type="button" value="Share !">
+    <input type="submit" value="Share !">
 </form>
 Result : <span id="result"></span>
 </body>
