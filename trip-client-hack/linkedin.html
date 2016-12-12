@@ -1,7 +1,6 @@
 <html>
 
 <head>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
     <script type="text/javascript" src="http://platform.linkedin.com/in.js">
         api_key: 77c3z2vzb941q1
@@ -29,8 +28,8 @@
         }
 
         // Use the API call wrapper to share content on LinkedIn
-        $("#share").click(function() {
-            
+        function share() {
+
             if(!IN.User.isAuthorized()) {
                 alert("Not authorized !");
                 return;
@@ -38,10 +37,10 @@
 
             // Build the JSON payload containing the content to be shared
             var payload = {
-                "comment": $('#comment').val(),
+                "comment": document.getElementById("comment").value,
                 "content": {
-                    "title": $('#comment').val(),
-                    "description": $('#comment').val(),
+                    "title": document.getElementById("comment").value,
+                    "description": document.getElementById("comment").value,
                     "submittedUrl": "https://www.egencia.fr/public/fr/fr/",
                     "submittedImageUrl": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAH7XMhsi-E6zICdOTWq6RUD3CyZPYOmkkqjquj2E99h3Svlx-Y6z8KUUkLWP8QNSv9tvMjinSRtatHhDcDO5QF1v3ya2KG7EM7kVQMfX30FuVDHOx2tuGT9ie-x6SPSzWOz9l3q-c0FW4_Snt0dWq8haZqxBL8hD3BVKR-woELv7EhAL8YigSynvGcHF3iMCEukAGhQr0WiJXFAyfx26SFWVdDJ2kk4ZLw&key=AIzaSyArPkZ-NEjfjnfY33ztWqo59ULkpuaT2mU"
                 },
@@ -55,7 +54,7 @@
                     .body(JSON.stringify(payload))
                     .result(onSuccess)
                     .error(onError);
-        });
+        }
 
     </script>
 </head>
@@ -63,9 +62,9 @@
 <body>
 <h1>Linkedin</h1>
 <script type="in/Login">Signed in as <?js= firstName ?> <?js= lastName ?>.</script>
-<form>
+<form onsubmit="share()">
     Comment : <input id="comment" name="comment" type="text" />
-    <a id="share" name="share">Share</a>
+    <input type="button" value="Share !">
 </form>
 Result : <span id="result"></span>
 </body>
