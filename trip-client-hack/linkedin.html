@@ -15,6 +15,9 @@
         //    IN.Event.on(IN, "auth", shareContent);
         //}
 
+        function logout() {
+            IN.User.logout();
+        }
         // Handle the successful return from the API call
         function onSuccess(data) {
             console.log("SUCCESS : " + data);
@@ -59,14 +62,13 @@
 
 <p>
 <h1>Linkedin</h1>
-<script type="in/Login">Signed in as <?js= firstName ?> <?js= lastName ?>.</script>
-<script type="in/Logout"></script>
+<script type="in/Login">Signed in as <?js= firstName ?> <?js= lastName ?>. <input type="button" value="Logout !" onclick="logout()"></script>
 
 <p>
     Comment : <input id="comment" name="comment" type="text" />
 </p>
 <p>
-    <input type="submit" value="Share !" onclick="share()">
+    <input type="button" value="Share !" onclick="share()">
 </p>
 </body>
 </html>
