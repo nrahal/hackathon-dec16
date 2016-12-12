@@ -27,24 +27,36 @@ public class ShareController {
 	@RequestMapping(value = "/fb/{payload}/{bust}", method = RequestMethod.GET)
 	public String generateFacebookPage(
 	        @PathVariable String payload,
+            @PathVariable String bust,
             Model model) throws IOException {
+        TripMetaData tripMetaData;
 
+    try {
         LOGGER.info("Base64 Payload: {}", payload);
 
         String json = new String(Base64.getDecoder().decode(payload));
         LOGGER.info("JSON Payload: {}", json);
 
-        TripMetaData tripMetaData = objectMapper.readValue(json, TripMetaData.class);
+        tripMetaData = objectMapper.readValue(json, TripMetaData.class);
 
         FlickrResponse flickrResponse = restTemplate.getForObject(
                 "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=a69bcf92807b072b8a3f899d46663387&text={destination}&per_page=1&page=1&format=json&nojsoncallback=1",
                 FlickrResponse.class,
                 tripMetaData.getDestination());
+    }
+    catch (Exception e){
+        LOGGER.error("ARGGFHH",e);
+        //Fake for dev only
+        tripMetaData = new TripMetaData();
+        tripMetaData.setDestination("TOUR EGEE");
 
+    }
         model.addAttribute("title", "Mon voyage à " + tripMetaData.getDestination() + " avec Egencia");
         model.addAttribute("description", "Mon voyage à " + tripMetaData.getDestination() + " avec Egencia");
-        model.addAttribute("currentUrl", "http://54.171.123.75/gc/share/fb");
 
+        model.addAttribute("currentUrl", "https://54.171.123.75/gc/share/fb/"+payload+"/"+bust);
+
+        model.addAttribute("img_url","https://54.171.123.75/gc/static/Paris.jpg");
         LOGGER.info("Model: {}", model);
 
 		return "fb";

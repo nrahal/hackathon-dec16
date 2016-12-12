@@ -1,4 +1,12 @@
 // Insert Face
+
+function uuid() {
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4());
+}
+
 window.fbAsyncInit = function() {
     FB.init({
         appId      : '1823888207866789',
@@ -27,10 +35,10 @@ first = tools_view.children().first();
 first.toggleClass("col9");
 first.toggleClass("col8");
 
-var fb_cb_url = hack_root + '/share/fb/booj/ll'
+var fb_cb_url = hack_root + '/share/fb/booj/'+uuid();
 
 document.getElementById('tools-share-fb').onclick = function() {
-    console.log("FB cb" + fb_cb_url)
+    console.log("FB cb " + fb_cb_url)
     FB.ui({
         method: 'share',
         display: 'popup',
