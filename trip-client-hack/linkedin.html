@@ -29,11 +29,11 @@
         }
 
         // Use the API call wrapper to share content on LinkedIn
-        function shareContent() {
+        $( "form" ).submit(function( event ) {
 
             if(!IN.User.isAuthorized()) {
                 alert("Not authorized !");
-                return false;
+                event.preventDefault();
             }
             if (confirm("Share content ?") == true) {
 
@@ -56,10 +56,10 @@
                         .body(JSON.stringify(payload))
                         .result(onSuccess)
                         .error(onError);
-                return true;
+                return;
             }
-            return false;
-        }
+            event.preventDefault();
+        });
 
     </script>
 </head>
@@ -67,10 +67,10 @@
 <body>
 <h1>Linkedin</h1>
 <script type="in/Login">Signed in as <?js= firstName ?> <?js= lastName ?>.</script>
-<form onsubmit="return shareContent();">
+<form onsubmit="javascript:return false;">
     Comment : <input id="comment" name="comment" type="text" />
     <input type="submit" name="submit" value="Share">
 </form>
-<div id="result" />
+Result : <span id="result"></span>
 </body>
 </html>
