@@ -54,7 +54,7 @@ document.getElementById('tools-share-fb').onclick = function() {
         method: 'share',
         display: 'popup',
         hashtag: '#egencia',
-        href: 'http://54.171.123.75/nr/fb/' + publication_content_base64 + "/123",
+        href: 'http://54.171.123.75/nr/share/fb/' + publication_content_base64 + "/123",
     }, function(response){});
     return false;
 }
