@@ -57,13 +57,16 @@
     </script>
 </head>
 
-<body>
+<p>
 <h1>Linkedin</h1>
 <script type="in/Login">Signed in as <?js= firstName ?> <?js= lastName ?>.</script>
-<form onsubmit="share()">
+<script type="in/Logout"></script>
+
+<p>
     Comment : <input id="comment" name="comment" type="text" />
-    <input type="submit" value="Share !">
-</form>
-Result : <span id="result"></span>
+</p>
+<p>
+    <input type="submit" value="Share !" onclick="share()">
+</p>
 </body>
 </html>
