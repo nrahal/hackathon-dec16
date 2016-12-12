@@ -37,7 +37,7 @@ public class ShareController {
         TripMetaData tripMetaData = objectMapper.readValue(json, TripMetaData.class);
 
         FlickrResponse flickrResponse = restTemplate.getForObject(
-                "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=a69bcf92807b072b8a3f899d46663387&text={destination}&per_page=1&page=1&sort=relevance&format=json&nojsoncallback=1",
+                "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=a69bcf92807b072b8a3f899d46663387&text={destination}&tags=skyline&per_page=1&page=1&sort=relevance&format=json&nojsoncallback=1",
                 FlickrResponse.class,
                 tripMetaData.getDestination());
 
