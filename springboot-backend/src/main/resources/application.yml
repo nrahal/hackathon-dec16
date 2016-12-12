@@ -1,0 +1,11 @@
+server :
+  display-name : Hackathon Service
+  port : 8080
+
+security :
+  basic.enabled : false
+
+management :
+  security.enabled : false
+
+

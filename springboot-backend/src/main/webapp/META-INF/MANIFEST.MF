@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: Spring RabbitMQ
+Implementation-Version: 1.0.0-SNAPSHOT
+Built-By: rcrepin
+Specification-Title: Spring RabbitMQ
+Implementation-Vendor-Id: com.egencia.poc
+Build-Time: 2016-11-21T12:55:07Z
+Created-By: Apache Maven 3.3.3
+Build-Jdk: 1.8.0_66
+Specification-Version: 1.0.0-SNAPSHOT
+
