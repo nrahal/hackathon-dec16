@@ -1,6 +1,5 @@
 package com.egencia.hackathon.controller;
 
-import com.egencia.hackathon.model.PublicationPageModel;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -22,30 +20,26 @@ public class ShareController {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(ShareController.class);
 
-	@RequestMapping(value = "/facebook/{tripMetaDataBase64}", method = RequestMethod.GET)
-	public ModelAndView generateFacebookPage(@PathVariable String tripMetaDataBase64) throws IOException {
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-		String tripMetaDataJson = new String(Base64.getDecoder().decode(tripMetaDataBase64));
-		TripMetaData tripMetaData = new ObjectMapper().readValue(tripMetaDataJson, TripMetaData.class);
-		PublicationPageModel publicationPageModel = buildPublication(tripMetaData);
+	@RequestMapping(value = "/fb/{payload}/{bust}", method = RequestMethod.GET)
+	public String generateFacebookPage(
+	        @PathVariable String payload,
+            Model model) throws IOException {
 
-		return new ModelAndView("facebook", "publication", publicationPageModel);
-	}
+        LOGGER.info("Base64 Payload: {}", payload);
 
-	private PublicationPageModel buildPublication(TripMetaData tripMetaData) {
-		PublicationPageModel model = new PublicationPageModel();
+        String json = new String(Base64.getDecoder().decode(payload));
+        LOGGER.info("JSON Payload: {}", json);
 
-		model.setDestinationName(tripMetaData.getDestination());
+        TripMetaData tripMetaData = objectMapper.readValue(json, TripMetaData.class);
 
-		return model;
-	}
+        model.addAttribute("title", "Mon voyage à " + tripMetaData.getDestination() + " avec Egencia");
+        model.addAttribute("description", "Mon voyage à " + tripMetaData.getDestination() + " avec Egencia");
+        model.addAttribute("currentUrl", "http://54.171.123.75/gc/share/fb");
 
-	@RequestMapping("/fb/{payload}/{bust}")
-	public String greeting(
-                           @RequestParam(value="payload", required=false, defaultValue="World") String payload,
-                           @RequestParam(value="bust", required=false) String bust,
-                           Model model) {
-		model.addAttribute("currentUrl", "http://54.171.123.75/gc/share/fb");
+        LOGGER.info("Model: {}", model);
+
 		return "fb";
 	}
 
