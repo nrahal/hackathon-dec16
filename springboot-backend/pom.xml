@@ -179,6 +179,7 @@
 				<configuration>
 					<mainClass>com.egencia.hackathon.Main</mainClass>
 					<layout>JAR</layout>
+					<executable>true</executable>
 				</configuration>
 				<executions>
 					<execution>
