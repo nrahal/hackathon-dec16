@@ -73,7 +73,7 @@ public class ShareController {
 
     private FlickrResponse.Photo photoOf(TripMetaData tripMetaData) {
         FlickrResponse flickrResponse = restTemplate.getForObject(
-                "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=702cacc84df753eb10a772986b9e4772" +
+                "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=31254d777be15bdfd1e760a6b626b930" +
                         "&text={destination}&tags=skyline&per_page=1&page=1&sort=relevance&format=json&nojsoncallback=1" +
                         "&extras=url_z,o_dims",
                 FlickrResponse.class,
